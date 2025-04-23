@@ -37,7 +37,3 @@ def criar_post(request):
         form = PostForm()
 
     return render(request, 'forum/forumForm.html', {'form': form})
-
-
-
-

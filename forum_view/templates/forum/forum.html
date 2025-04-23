@@ -1,27 +1,43 @@
 {% extends 'home_view/base.html' %}
 
-{% block title %}Fórum{% endblock %}
+{% block title %}Fórum - Caminhos do Planalto Central{% endblock %}
 
 {% block content %}
-<h1 class="titulo-forum">Fórum</h1>
-
-<div class="post-container">
-    {% for post in posts %}
-        <div class="post-card">
-            {% if post.imagem %}
-                <img src="{{ post.imagem.url }}" alt="Imagem do Post">
-            {% endif %}
-            <h2>{{ post.titulo }}</h2>
-            <p>{{ post.descricao|truncatewords:20 }}</p>
-            <a class="btn-vermais" href="{% url 'forum_one' post.pk %}">Ver mais</a>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Fórum de Discussão</h1>
+            <p>Compartilhe suas experiências e dúvidas com outros membros da comunidade.</p>
         </div>
-    {% empty %}
-        <p>Não há posts disponíveis no momento.</p>
-    {% endfor %}
+        <div class="col-auto">
+            <a href="{% url 'criar_post' %}" class="btn btn-primary">Criar Novo Tópico</a>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% if posts %}
+            {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        {% if post.imagem %}
+                            <img src="{{ post.imagem.url }}" class="card-img-top" alt="{{ post.titulo }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.titulo }}</h5>
+                            <p class="card-text">{{ post.conteudo|truncatewords:30 }}</p>
+                            <a href="{% url 'forum_one' post.pk %}" class="btn btn-outline-primary">Ler mais</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Publicado em: {{ post.data_criacao|date:"d/m/Y" }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <p>Ainda não há tópicos no fórum. Seja o primeiro a criar um!</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
-{% endblock %}
-
-{% block extra_head %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'forum/css/forum.css' %}">
 {% endblock %}

@@ -21,16 +21,27 @@
                             <a class="nav-link" href="{% url 'home_view:home' %}">Início</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home_view:friends_list' %}">Parceiros</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'home_view:user_type' %}">Cadastrar</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home_view:friends_list' %}">Parceiros</a>
+                        </li>
+                        {% if request.session.user_id %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'forum' %}">Fórum</a>
+                        </li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav ms-auto">
+                        {% if request.session.user_id %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home_view:logout' %}">Logout</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home_view:login' %}">Login</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
